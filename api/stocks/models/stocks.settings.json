@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stocks",
+  "info": {
+    "name": "stocks",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "product": {
+      "unique": true,
+      "model": "product",
+      "via": "stock"
+    },
+    "warehouse": {
+      "model": "warehouse",
+      "via": "stocks"
+    },
+    "qty": {
+      "type": "integer",
+      "unique": false
+    }
+  }
+}
