@@ -13,8 +13,7 @@
   "attributes": {
     "product": {
       "unique": true,
-      "model": "product",
-      "via": "stock"
+      "model": "product"
     },
     "warehouse": {
       "model": "warehouse",

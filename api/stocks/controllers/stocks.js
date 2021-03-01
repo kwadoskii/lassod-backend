@@ -73,68 +73,37 @@ module.exports = {
   },
 
   async unstock(ctx) {
-    let entity;
-    if (ctx.is("multipart")) {
-      const { data, files } = parseMultipartData(ctx);
-      entity = await strapi.services.stocks.create(data, { files });
-    } else {
-      const entityWarehouse = await strapi.services.warehouse.findOne({
-        number: ctx.request.body.warehouse,
-      });
-      const entityProduct = await strapi.services.product.findOne({
-        SKU: ctx.request.body.SKU,
-      });
-
-      const warehouse = sanitizeEntity(entityWarehouse, {
-        model: strapi.models.warehouse,
-      });
-      const product = sanitizeEntity(entityProduct, {
-        model: strapi.models.product,
-      });
-      const stock = sanitizeEntity(entityProduct, {
-        model: strapi.models.stocks,
-      });
-
-      let qty;
-      let remainingSpace;
-      let warehouseUpdated;
-
-      if (warehouse == null) return "warehouse is not valid";
-      if (product == null) return "product is not valid";
-
-      // if (warehouse.limit === 0) {
-      //   return "No space to store products";
-      // } else
-      if (
-        ctx.request.body.qty >= warehouse.capacity &&
-        warehouse.limit !== null
-      ) {
-        qty = warehouse.limit;
-        remainingSpace = 0;
-        warehouseUpdated = await strapi.services.warehouse.update(
-          { id: warehouse.id },
-          { limit: remainingSpace }
-        );
-      } else if (warehouse.limit == null) {
-        qty = ctx.request.body.qty;
-        warehouseUpdated = warehouse;
-      } else {
-        qty = ctx.request.body.qty;
-        remainingSpace = warehouse.limit - ctx.request.body.qty;
-        warehouseUpdated = await strapi.services.warehouse.update(
-          { id: warehouse.id },
-          { limit: remainingSpace }
-        );
-      }
-
-      entity = await strapi.services.stocks.create({
-        product,
-        warehouse: sanitizeEntity(warehouseUpdated, {
-          model: strapi.models.warehouse,
-        }),
-        qty,
-      });
-    }
-    return sanitizeEntity(entity, { model: strapi.models.stocks });
+    //   let entity;
+    //   if (ctx.is("multipart")) {
+    //     const { data, files } = parseMultipartData(ctx);
+    //     entity = await strapi.services.stocks.create(data, { files });
+    //   } else {
+    //     const entityWarehouse = await strapi.services.warehouse.findOne({
+    //       number: ctx.request.body.warehouse,
+    //     });
+    //     const entityProduct = await strapi.services.product.findOne({
+    //       SKU: ctx.request.body.SKU,
+    //     });
+    //     const entityStock = await strapi.services.stocks.findOne({
+    //       product: ctx.request.body.SKU,
+    //     });
+    //     const warehouse = sanitizeEntity(entityWarehouse, {
+    //       model: strapi.models.warehouse,
+    //     });
+    //     const product = sanitizeEntity(entityProduct, {
+    //       model: strapi.models.product,
+    //     });
+    //     const stock = sanitizeEntity(entityStock, {
+    //       model: strapi.models.stocks,
+    //     });
+    //     console.log(stock);
+    //     // let qty;
+    //     // if (warehouse == null) return "warehouse is not valid";
+    //     // if (product == null) return "product is not valid";
+    //     // entity = await strapi.services.stocks.update({
+    //     //   qty,
+    //     // });
+    //   }
+    //   return sanitizeEntity(entityStock, { model: strapi.models.stocks });
   },
 };

@@ -19,10 +19,6 @@
       "type": "string",
       "required": true,
       "unique": true
-    },
-    "stock": {
-      "via": "product",
-      "model": "stocks"
     }
   }
 }
